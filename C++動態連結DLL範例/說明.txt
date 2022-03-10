@@ -1,0 +1,10 @@
+練習使用C++動態連結DLL
+
+功能
+1.取得DLL
+2.取得API
+3.API轉型
+
+API名稱可使用VS CMD 取得
+
+dumpbin /exports DLL名稱
