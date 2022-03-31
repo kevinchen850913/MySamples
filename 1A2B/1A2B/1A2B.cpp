@@ -22,123 +22,29 @@
 //2.計分功能
 //3.程式碼整理
 
-#include <iostream>
-#include <sstream>  
-#include <cstdlib> /* 亂數相關函數 */
-#include <ctime>   /* 時間相關函數 */
+#include "1A2B.h"
+using namespace _1A2B;
 
-using namespace std;
-
-struct answer
+void player(game G)
 {
-	bool regular = false;
-	int num[4] = {};      //不重複四位數字
-	int counter[10] = {}; //使用哪些數字
-	int A = 0;
-	int B = 0;
-};
-
-int toNum(string str)
-{
-	stringstream sin(str);
-	unsigned int n;
-	return sin >> n ? n : 0;
-}
-answer randanswer()
-{
-	answer rt;	
-	srand(time(NULL));
-	for (int i = 0; i < 4;)
+	while (!G.win)
 	{
-		int x = rand() % 10;
-		if (rt.counter[x] != 1)
-		{
-			rt.counter[x] = 1;
-			rt.num[i] = x;
-			i++;
-		}		
+		string s = "";
+		cout << "請輸入數字 " << endl;
+		cin >> s;
+		G.run(toanswer(s));
 	}
-	rt.regular = true;
-	return rt;
-}
-answer toanswer(string str)
-{
-	answer rt = {};
-	int n = toNum(str);
-	if (n <= 123 || n >= 9876)
-	{
-		cout << "格式錯誤 : 無效的輸入!\n";
-		return rt;
-	}
-	for (int i = 3; i >= 0; i--, n = n / 10)
-	{
-		rt.num[i] = n % 10;
-		if (rt.counter[rt.num[i]] != 0)
-		{
-			cout << "格式錯誤 : 數字有重複\n";
-			return rt;
-		}
-		rt.counter[rt.num[i]]++;
-	}
-	rt.regular = true;
-	return rt;
 }
 
-class game
+void robotplayer1(game G)
 {
-public:
-	bool win;
-	answer correctanswer;
-	answer myanswer;
-	int counter;
-	game()
-	{
-		win = false;
-		correctanswer = randanswer();
-		counter = 0;
-	}
-	void checkanswer()
-	{
-		if (!correctanswer.regular || !myanswer.regular)
-			return;
-		for (int i = 0; i < 4; i++)
-		{
-			if (correctanswer.num[i] == myanswer.num[i])
-				myanswer.A++;
-			else
-				myanswer.B += correctanswer.counter[myanswer.num[i]];
-		}
-		return;
-	}
-	void printmyanswer()
-	{
-		if (!correctanswer.regular || !myanswer.regular)
-			return;
-		cout << "我的答案 : ";
-		for (auto i : myanswer.num)
-			cout << i;
-		cout << endl;
-		if (myanswer.A == 4)
-		{
-			win = true;
-			cout << " 過關 !" << endl;
-			cout << "總共猜了" << counter << "次" << endl;
-		}			
-		else
-			cout << "A = " << myanswer.A << " ,B = " << myanswer.B << endl;
-	}
-	void run(answer answer)
-	{
-		counter++;
-		myanswer = answer;
-		checkanswer();
-		printmyanswer();
-	}
-};
+	robotplayer R1 = robotplayer();
+	R1.run(G);
+}
 
 int main()
 {
-	string s = "";
+	
 	int i = 0;
 	game G1 = game();
 	while (true)
@@ -147,19 +53,17 @@ int main()
 		{
 		case 0:
 			cout << "開始 !"<< endl;
+			system("pause");
 			G1 = game();
-			i = 1;
+			i = 2;
 			break;
 		case 1:
-			cout << "請輸入數字 " << endl;
-			cin >> s;
-			G1.run(toanswer(s));
-			if (G1.win)
-			{
-				i = 0;
-			}
+			player(G1);
 			break;
 		case 2:
+			cout << "暴力解 " << endl;
+			robotplayer1(G1);
+			i = 0;
 			break;
 		default:
 			i = 0;
