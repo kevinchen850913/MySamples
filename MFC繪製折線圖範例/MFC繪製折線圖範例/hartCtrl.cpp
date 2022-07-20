@@ -37,10 +37,6 @@ void ChartCtrl::DoDataExchange(CDataExchange* pDX)
 
   CChartGrid* pChartGrid = pBottomAxis->GetGrid();
   pChartGrid -> SetVisible(false);
-
-  pBottomAxis->SetTickIncrement(false, 1.0);
-  pBottomAxis->SetDiscrete(false);
-
 }
 
 
