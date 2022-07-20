@@ -29,14 +29,16 @@ void ChartCtrl::DoDataExchange(CDataExchange* pDX)
   CChartStandardAxis* pLeftAxis =
   m_ChartCtrl.CreateStandardAxis(CChartCtrl::LeftAxis);
 
-  //pBottomAxis->SetMinMax(0, 4000);
-  //pLeftAxis->SetMinMax(0, 10000);
-
   pBottomAxis->SetAutomaticMode(CChartAxis::FullAutomatic);
   pLeftAxis->SetAutomaticMode(CChartAxis::FullAutomatic);
 
   CChartGrid* pChartGrid = pBottomAxis->GetGrid();
   pChartGrid -> SetVisible(false);
+
+  pSeries1 = m_ChartCtrl.CreateLineSerie();
+  pSeries2 = m_ChartCtrl.CreateLineSerie();
+  pSeries3 = m_ChartCtrl.CreateLineSerie();
+  pSeries4 = m_ChartCtrl.CreateLineSerie();
 }
 
 
@@ -78,19 +80,19 @@ void ChartCtrl::OnBnClickedOk()
 {
 	// TODO: 在此加入控制項告知處理常式程式碼
     CStdioFile file;
-	file.Open(_T("files.csv"),CFile::modeRead);
 	CString str;
-	file.ReadString(str);
-	
-    CChartLineSerie* pSeries1 = m_ChartCtrl.CreateLineSerie();
-	CChartLineSerie* pSeries2 = m_ChartCtrl.CreateLineSerie();
-	CChartLineSerie* pSeries3 = m_ChartCtrl.CreateLineSerie();
-	CChartLineSerie* pSeries4 = m_ChartCtrl.CreateLineSerie();
-    double XVal[4000];
+	double XVal[4000];
     double Y1Val[4000];
 	double Y2Val[4000];
 	double Y3Val[4000];
 	double Y4Val[4000];
+
+	file.Open(_T("files.csv"),CFile::modeRead);
+	file.ReadString(str);
+	pSeries1->ClearSerie();
+	pSeries2->ClearSerie();
+	pSeries3->ClearSerie();
+	pSeries4->ClearSerie();
     
 	int i = 0; 
 	while(file.ReadString(str) && i<4000)

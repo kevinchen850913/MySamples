@@ -17,6 +17,10 @@ public:
 	//{{AFX_DATA(CChartDemoDlg)
     //}}AFX_DATA
     CChartCtrl m_ChartCtrl;
+	CChartLineSerie* pSeries1;
+	CChartLineSerie* pSeries2;
+	CChartLineSerie* pSeries3;
+	CChartLineSerie* pSeries4;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV ¤ä´©
