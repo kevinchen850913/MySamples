@@ -21,26 +21,25 @@ ChartCtrl::~ChartCtrl()
 
 void ChartCtrl::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	DDX_Control(pDX,IDC_ChartCtrl1,m_ChartCtrl);
+  CDialog::DoDataExchange(pDX);
+  DDX_Control(pDX,IDC_ChartCtrl1,m_ChartCtrl);
 
   CChartStandardAxis* pBottomAxis =
-    m_ChartCtrl.CreateStandardAxis(CChartCtrl::BottomAxis);
-  pBottomAxis->SetMinMax(0, 10);
+  m_ChartCtrl.CreateStandardAxis(CChartCtrl::BottomAxis);
   CChartStandardAxis* pLeftAxis =
-    m_ChartCtrl.CreateStandardAxis(CChartCtrl::LeftAxis);
-  pLeftAxis->SetMinMax(0, 10);
+  m_ChartCtrl.CreateStandardAxis(CChartCtrl::LeftAxis);
+
+  //pBottomAxis->SetMinMax(0, 4000);
+  //pLeftAxis->SetMinMax(0, 10000);
+
+  pBottomAxis->SetAutomaticMode(CChartAxis::FullAutomatic);
+  pLeftAxis->SetAutomaticMode(CChartAxis::FullAutomatic);
+
+  CChartGrid* pChartGrid = pBottomAxis->GetGrid();
+  pChartGrid -> SetVisible(false);
 
   pBottomAxis->SetTickIncrement(false, 1.0);
-  pBottomAxis->SetDiscrete(true);
-  CChartLineSerie* pSeries = m_ChartCtrl.CreateLineSerie();
-  double XVal[20];
-  double YVal[20];
-  for (int i=0; i<20; i++)
-  {
-    XVal[i] = YVal[i] = i/2.0;
-  }
-  pSeries->SetPoints(XVal,YVal,20);
+  pBottomAxis->SetDiscrete(false);
 
 }
 
@@ -91,14 +90,14 @@ void ChartCtrl::OnBnClickedOk()
 	CChartLineSerie* pSeries2 = m_ChartCtrl.CreateLineSerie();
 	CChartLineSerie* pSeries3 = m_ChartCtrl.CreateLineSerie();
 	CChartLineSerie* pSeries4 = m_ChartCtrl.CreateLineSerie();
-    double XVal[10000];
-    double Y1Val[10000];
-	double Y2Val[10000];
-	double Y3Val[10000];
-	double Y4Val[10000];
+    double XVal[4000];
+    double Y1Val[4000];
+	double Y2Val[4000];
+	double Y3Val[4000];
+	double Y4Val[4000];
     
 	int i = 0; 
-	while(file.ReadString(str) && i<10000)
+	while(file.ReadString(str) && i<4000)
 	{		
 		str = str.Trim(_T(" "));
 		int index = str.Find(_T(","));
@@ -123,7 +122,6 @@ void ChartCtrl::OnBnClickedOk()
 		str.Left(index);
 		i++;
 	}
-	//pSeries->SetPoints(XVal,XVal,100);
 	pSeries1->SetPoints(XVal,Y1Val,i);
 	pSeries2->SetPoints(XVal,Y2Val,i);
 	pSeries3->SetPoints(XVal,Y3Val,i);
