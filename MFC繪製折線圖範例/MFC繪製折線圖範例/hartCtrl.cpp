@@ -81,6 +81,7 @@ void ChartCtrl::OnBnClickedOk()
 	// TODO: 在此加入控制項告知處理常式程式碼
     CStdioFile file;
 	CString str;
+	int index;
 	double XVal[4000];
     double Y1Val[4000];
 	double Y2Val[4000];
@@ -98,7 +99,7 @@ void ChartCtrl::OnBnClickedOk()
 	while(file.ReadString(str) && i<4000)
 	{		
 		str = str.Trim(_T(" "));
-		int index = str.Find(_T(","));
+		index = str.Find(_T(","));
 
 		_AtlSimpleFloatParse(str.Left(index),XVal[i]);
 		str=str.Right(str.GetLength()-index-1);
@@ -116,8 +117,7 @@ void ChartCtrl::OnBnClickedOk()
 		str=str.Right(str.GetLength()-index-1);
 		index = str.Find(_T(","));
 
-		_AtlSimpleFloatParse(str.Left(index),Y4Val[i]);
-		str.Left(index);
+		_AtlSimpleFloatParse(str,Y4Val[i]);
 		i++;
 	}
 	pSeries1->SetPoints(XVal,Y1Val,i);
